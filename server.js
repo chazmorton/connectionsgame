@@ -1,12 +1,13 @@
 const express = require('express');
 const axios = require('axios');
 
-const getGameDayData = require('./src/api/getDayGame');
+const getGameDayData = require('./src/api/getGameDayData');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.static('src'));
+app.use(express.static(`public`));
+app.use(express.static(`src`));
 
 // Serve your HTML file
 app.get('/', async (req, res) => {

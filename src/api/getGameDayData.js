@@ -7,7 +7,6 @@ async function getGameDayData() {
         const response = await axios.get('https://www.nytimes.com/svc/connections/v2/2024-05-05.json');
 
         console.log(response.data);
-        // console.log(response.data.categories[0]);
 
         return response.data;
     } catch (error) {

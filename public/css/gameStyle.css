@@ -1,0 +1,23 @@
+.gameGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.gameGridItem {
+    border: black solid 1px;
+    border-radius: 10px;
+    height: 100px;
+}
+
+.gameGridItem:hover {
+    background-color: grey;
+}
+
+.selected {
+    background-color: red;
+}
+
+.correct {
+    background-color: green;
+}
