@@ -8,14 +8,28 @@
     <script type="text/javascript" src="handleGetData.js"></script>
 </head>
 <body>
-    <h1>Connections Game</h1>
+    <div class="pageContainer">
+        <h1>Connections Game</h1>
 
-    <button id="getDataButton" onclick=handleGetData()>Get Game Day Data</button>
+        <div class="top-button-container">
+            <button class="new-game" id="getDataButton" onclick=handleGetData()>Get new game</button>
+            <button class="shuffle">Shuffle</button>
+        </div>
 
-    <div class="gameDate"></div>
+        <div class="gameContainer">
+            <div class="gameDate"></div>
+            <div class="gameGrid"></div>
+        </div>
 
-    <div class="gameGrid"></div>
+        <button onclick=checkGuess()>Submit</button>
 
-    <button onclick=checkGuess()>Submit</button>
+        <div>
+            <p>Guesses Left:</p>
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+            <div>4</div>
+        </div>
+    </div>  
 </body>
 </html>

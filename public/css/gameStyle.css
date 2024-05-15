@@ -1,17 +1,118 @@
+.gameContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
 .gameGrid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, min(50%, 100px));
     gap: 10px;
 }
 
+.top-button-container {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    justify-content: center;
+}
+
 .gameGridItem {
-    border: black solid 1px;
+    border: none;
+    background-color: white;
     border-radius: 10px;
     height: 100px;
+    width: 100px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif; 
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.gameDate {
+    font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+}
+
+.new-game {
+  background: #FF4742;
+  border: 1px solid #FF4742;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 16px;
+  min-height: 40px;
+  outline: 0;
+  padding: 12px 14px;
+  text-align: center;
+  text-rendering: geometricprecision;
+  text-transform: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+}
+
+.new-game:hover,
+.new-game:active {
+  background-color: initial;
+  background-position: 0 0;
+  color: #FF4742;
+}
+
+.new-game:active {
+  opacity: .5;
+}
+
+.shuffle {
+    background: #e0ff42;
+    border: 1px solid #e0ff42;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+    box-sizing: border-box;
+    color: #000000;
+    cursor: pointer;
+    display: inline-block;
+    font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 16px;
+    min-height: 40px;
+    outline: 0;
+    padding: 12px 14px;
+    text-align: center;
+    text-rendering: geometricprecision;
+    text-transform: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+}
+  
+.shuffle:hover,
+.shuffle:active {
+    background-color: initial;
+    background-position: 0 0;
+    color: #000000;
+}
+
+.shuffle:active {
+    opacity: .5;
 }
 
 .gameGridItem:hover {
-    background-color: grey;
+    background-color: lightgray;
+    cursor: pointer;
+}
+
+.selected:hover {
+    background-color: rgb(143, 205, 226);
 }
 
 .selected {
@@ -19,5 +120,9 @@
 }
 
 .correct {
-    background-color: green;
+    background-color: rgb(87, 190, 87);
+}
+
+.correct:hover {
+    background-color: rgb(87, 190, 87);
 }

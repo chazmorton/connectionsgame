@@ -1,5 +1,6 @@
 var selectedArr = [];
 var solutionsArr = [];
+var guesses = 4;
 
 function handleGetData() {
     fetch('/api/getDayGame')
@@ -35,7 +36,7 @@ function populateGrid(data) {
     gameDate.innerHTML = '';
     const date = document.createElement('p');
     date.classList.add('gameDate');
-    date.textContent = `${data.print_date}`;
+    date.textContent = `Archive Date: ${data.print_date}`;
     gameDate.appendChild(date);
 
     const gameGrid = document.querySelector('.gameGrid');
