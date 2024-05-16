@@ -9,10 +9,10 @@
 </head>
 <body>
     <div class="pageContainer">
-        <h1>Connections Game</h1>
+        <h1 class="connections-header">Connections Game</h1>
 
         <div class="top-button-container">
-            <button class="new-game" id="getDataButton" onclick=handleGetData()>Get new game</button>
+            <button class="new-game" id="getDataButton" onclick=handleGetData()>New game</button>
             <button class="shuffle">Shuffle</button>
         </div>
 
@@ -21,7 +21,7 @@
             <div class="gameGrid"></div>
         </div>
 
-        <button onclick=checkGuess()>Submit</button>
+        <button class="submitButton" onclick=checkGuess()>Submit</button>
 
         <div>
             <p>Guesses Left:</p>
