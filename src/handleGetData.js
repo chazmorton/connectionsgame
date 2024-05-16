@@ -1,6 +1,7 @@
 var selectedArr = [];
 var solutionsArr = [];
 var guesses = 4;
+var shuffledWords = [];
 
 function handleGetData() {
     fetch('/api/getDayGame')
@@ -14,23 +15,49 @@ function handleGetData() {
             console.log('Response:', data);
             populateGrid(data);
             solutions(data);
+            populateGuesses(guesses)
         })
         .catch(error => {
             console.error('Error fetching data:', error);
         });
 }
 
-function shuffle(array) { 
+function shuffle() { 
+    for (let i = shuffledWords.length - 1; i > 0; i--) { 
+        const j = Math.floor(Math.random() * (i + 1)); 
+        [shuffledWords[i], shuffledWords[j]] = [shuffledWords[j], shuffledWords[i]]; 
+    } 
+    return shuffledWords; 
+}; 
+
+function shuffle2(array) {
     for (let i = array.length - 1; i > 0; i--) { 
         const j = Math.floor(Math.random() * (i + 1)); 
         [array[i], array[j]] = [array[j], array[i]]; 
     } 
-    return array; 
-}; 
+    return array;
+}
+
+function shuffleGrid() {
+    const gameGrid = document.querySelector(".gameGrid");
+    const gridItems = Array.from(gameGrid.querySelectorAll('.gameGridItem'));
+  
+    // Shuffle the array of grid items
+
+    const shuffledGridItems = shuffle2(gridItems);
+  
+    // Clear the grid
+    gameGrid.innerHTML = '';
+  
+    // Reinsert shuffled grid items into the grid
+    shuffledGridItems.forEach(item => {
+      gameGrid.appendChild(item);
+    });
+}
 
 function populateGrid(data) {
 
-    var shuffledWords = [];
+    // var shuffledWords = [];
 
     const gameDate = document.querySelector('.gameDate');
     gameDate.innerHTML = '';
@@ -41,6 +68,7 @@ function populateGrid(data) {
 
     const gameGrid = document.querySelector('.gameGrid');
     gameGrid.innerHTML = ''; 
+    shuffledWords = []
 
     console.log(data.categories);
     data.categories.forEach(category => {
@@ -49,7 +77,7 @@ function populateGrid(data) {
         })
     });
 
-    shuffledWords = shuffle(shuffledWords);
+    shuffle();
 
     shuffledWords.forEach(word => {
         const gridItem = document.createElement('button');
@@ -94,6 +122,18 @@ function solutions(data) {
     console.log(solutionsArr);
 }
 
+function populateGuesses(guesses) {
+    var guessesDiv = document.querySelector('.guesses');
+    guessesDiv.innerHTML = '';
+
+    for (var i = 0; i < guesses; i++) {
+        var circle = document.createElement('div');
+        circle.classList.add("circle");
+        circle.classList.add(`c-${i}`);
+        guessesDiv.appendChild(circle);
+    }
+}
+
 function arrayMatchesAny(targetArray, arrayOfArrays) {
     const sortedTargetArray = targetArray.slice().sort();
 
@@ -125,17 +165,27 @@ function arraysEqual(arr1, arr2) {
 }
 
 function checkGuess() {
-    // console.log("Checking guess: ", selectedArr);
-    // console.log("Sol array: ", solutionsArr);
+    console.log("Checking Guess!");
+    const gridItems = document.querySelectorAll('.gameGridItem');
+    if(selectedArr.length < 4) {
+        var modal = document.getElementById("select4Modal");
+        var closeBtn = document.getElementsByClassName("close")[0];
+        closeBtn.onclick = function() {
+            closeModal(modal);
+        }
+        openModal(modal);
+        return;
+    }
     const result = arrayMatchesAny(selectedArr, solutionsArr);
 
-    const gridItems = document.querySelectorAll('.gameGridItem');
+    console.log(result);
 
-    if(result === true) {
+    if(result == true) {
         selectedArr.forEach(word => {
             gridItems.forEach(gridItem => {
                 if (gridItem.textContent.includes(word)) {
                     gridItem.classList.add("correct")
+                    gridItem.classList.remove('red-animation');
                     gridItem.disabled = true;
                     return; 
                 }
@@ -143,4 +193,39 @@ function checkGuess() {
         });
         selectedArr = [];
     }
+    else {
+        selectedArr.forEach(word => {
+            gridItems.forEach(gridItem => {
+                if (gridItem.textContent.includes(word)) {
+                    gridItem.classList.add('red-animation');
+                    setTimeout(() => {
+                        gridItem.classList.remove('red-animation');
+                    }, 1000);
+                }
+            });
+        });
+        console.log("dat boi is false");
+        decrementGuess();
+        if(guesses == 0) {
+            gridItems.forEach(item => {
+                item.disabled = true;
+                item.style.pointerEvents = 'none';
+            });
+        }
+    }
+}
+
+function decrementGuess() {
+    guesses--;
+    const circleInstance = document.querySelector(`.c-${guesses}`);
+    circleInstance.classList.add("circleHide");
+}
+
+function openModal(modal) {
+    modal.style.display = "block";
+}
+
+// Function to close modal
+function closeModal(modal) {
+    modal.style.display = "none";
 }

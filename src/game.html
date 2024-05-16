@@ -9,11 +9,19 @@
 </head>
 <body>
     <div class="pageContainer">
+
+        <div id="select4Modal" class="select4Modal">
+            <div class="select4Modal-content">
+                <span class="close">&times;</span>
+                <p class="select4Modal-text">Please select 4 items to submit</p>
+            </div>
+        </div>
+
         <h1 class="connections-header">Connections Game</h1>
 
         <div class="top-button-container">
             <button class="new-game" id="getDataButton" onclick=handleGetData()>New game</button>
-            <button class="shuffle">Shuffle</button>
+            <button class="shuffle" onclick=shuffleGrid()>Shuffle</button>
         </div>
 
         <div class="gameContainer">
@@ -22,13 +30,9 @@
         </div>
 
         <button class="submitButton" onclick=checkGuess()>Submit</button>
-
-        <div>
-            <p>Guesses Left:</p>
-            <div>1</div>
-            <div>2</div>
-            <div>3</div>
-            <div>4</div>
+        <div class="guessesContainer">
+            <p class="guessesText">Guesses Left:</p>
+            <div class="guesses"></div>
         </div>
     </div>  
 </body>
