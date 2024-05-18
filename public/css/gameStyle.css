@@ -33,16 +33,34 @@
     border: none;
     background-color: white;
     border-radius: 10px;
-    height: 100px;
+    height: 80px;
     width: 100px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
     font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif; 
     font-size: 12px;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .gameDate {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
     font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+    padding-top: 10px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.dateSelect {
+    border: none;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.3) 1px 2px 4px;
+    background-color: #e3ecf1;
+    padding: 10px;
+    font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 .new-game {
@@ -116,6 +134,42 @@
 .shuffle:active {
     opacity: .5;
 }
+
+.clearSelections {
+    background: #21e2c5;
+    border: 1px solid #21e2c5;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 16px;
+    min-height: 40px;
+    outline: 0;
+    padding: 12px 14px;
+    text-align: center;
+    text-rendering: geometricprecision;
+    text-transform: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+  }
+  
+  .clearSelections:hover,
+  .clearSelections:active {
+    background-color: initial;
+    background-position: 0 0;
+    color: #21e2c5;
+  }
+  
+  .clearSelections:active {
+    opacity: .5;
+  }
 
 .gameGridItem:hover {
     background-color: lightgray;
@@ -263,10 +317,6 @@
     text-decoration: none;
     cursor: pointer;
 }
-
-.correctCategoryContainer {
-    margin-bottom: 25px;
-}
   
 .correctCategory {
     border: none;
@@ -279,7 +329,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-bottom: 10px;
+    margin: 0 0 10px 0;
     padding: 10px 0 10px 0;
     gap: 10px;
 }
@@ -296,4 +346,133 @@
     font-size: 16px;
     font-weight: 300;
     margin: 0;
+}
+
+.correctModal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+  
+/* Modal Content/Box */
+.correctModal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 10px;
+    width: 15%; /* Could be more or less, depending on screen size */
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.correctModal-text {
+    font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+}
+  
+/* Close Button */
+.closeCorrectModal {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+  
+.closeCorrectModal:hover,
+.closeCorrectModal:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.alreadyWonModal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+  
+/* Modal Content/Box */
+.alreadyWonModal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 10px;
+    width: 50%; /* Could be more or less, depending on screen size */
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.alreadyWonModal-text {
+    font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+}
+  
+/* Close Button */
+.closeAlreadyWon {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+  
+.closeAlreadyWon:hover,
+.closeAlreadyWon:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.failedModal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+  
+/* Modal Content/Box */
+.failedModal-content {
+    background-color: #fefefe;
+    margin: 25% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 10px;
+    width: 15%; /* Could be more or less, depending on screen size */
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.failedModal-text {
+    font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.failedModalButtons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }

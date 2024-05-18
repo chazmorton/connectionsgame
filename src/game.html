@@ -17,15 +17,48 @@
             </div>
         </div>
 
+        <div id="correctModal" class="correctModal">
+            <div class="correctModal-content">
+                <span class="closeCorrectModal">&times;</span>
+                <p class="correctModal-text">Great job! You win!</p>
+                <p style='font-size:50px;'>&#127881;</p>
+                <button class="new-game" onclick=handleGetData()>New game</button>
+            </div>
+        </div>
+
+        <div id="alreadyWonModal" class="alreadyWonModal">
+            <div class="alreadyWonModal-content">
+                <span class="closeAlreadyWon">&times;</span>
+                <p class="alreadyWonModal-text">You already won! Why are you trying to submit? &#129488;</p>
+            </div>
+        </div>
+
+        <div id="failedModal" class="failedModal">
+            <div class="failedModal-content">
+                <p class="failedModal-text">You lose &#128534;</p>
+                <div class="failedModalButtons">
+                    <button class="new-game" onclick=handleGetData()>New game</button>
+                    <button class="new-game" onclick=retryGame()>Try again</button>
+                </div>
+            </div>
+        </div>
+
         <h1 class="connections-header">Connections Game</h1>
 
         <div class="top-button-container">
             <button class="new-game" id="getDataButton" onclick=handleGetData()>New game</button>
             <button class="shuffle" onclick=shuffleGrid()>Shuffle</button>
+            <button class="clearSelections" onclick=clearSelections()>Clear selections</button>
         </div>
 
         <div class="gameContainer">
-            <div class="gameDate"></div>
+            <div class="gameDate">
+                <p>Archive Date: </p>
+                <div class="selectWrapper">
+                    <select name="dateSelect" id="dateSelect" class="dateSelect" onchange=handleSelectChange()>
+                    </select>
+                </div>
+            </div>
             <div class="correctCategoryContainer"></div>
             <div class="gameGrid"></div>
         </div>

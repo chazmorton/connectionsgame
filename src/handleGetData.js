@@ -2,6 +2,15 @@ var selectedArr = [];
 var solutionsObj = {};
 var guesses = 4;
 var shuffledWords = [];
+var correctCount = 0;
+
+var currentGameDate = "";
+
+var dateArray = [];
+
+window.onload = function() {
+    handleGetData();
+};
 
 function handleGetData() {
     fetch('/api/getDayGame')
@@ -14,7 +23,48 @@ function handleGetData() {
         .then(data => {
             console.log('Response:', data);
             guesses = 4;
-            selectedArr = []
+            selectedArr = [];
+            correctCount = 0;
+            currentGameDate = data.print_date;
+            dateArray = getDateArray();
+            populateSelectorDates();
+            setSelectorCurrDate();
+            var correctModal = document.getElementById("correctModal");
+            closeModal(correctModal);
+            var failedModal = document.getElementById("failedModal");
+            closeModal(failedModal);
+            const correctCategoryContainer = document.querySelector('.correctCategoryContainer');
+            correctCategoryContainer.innerHTML = '';
+            populateGrid(data);
+            solutions(data);
+            populateGuesses(guesses)
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+}
+
+function retryGame() {
+    fetch(`/api/retryDayGame?currentGameDate=${currentGameDate}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Response:', data);
+            guesses = 4;
+            selectedArr = [];
+            correctCount = 0;
+            currentGameDate = data.print_date;
+            dateArray = getDateArray();
+            populateSelectorDates();
+            setSelectorCurrDate();
+            var correctModal = document.getElementById("correctModal");
+            closeModal(correctModal);
+            var failedModal = document.getElementById("failedModal");
+            closeModal(failedModal);
             const correctCategoryContainer = document.querySelector('.correctCategoryContainer');
             correctCategoryContainer.innerHTML = '';
             populateGrid(data);
@@ -60,13 +110,6 @@ function shuffleGrid() {
 }
 
 function populateGrid(data) {
-
-    const gameDate = document.querySelector('.gameDate');
-    gameDate.innerHTML = '';
-    const date = document.createElement('p');
-    date.classList.add('gameDate');
-    date.textContent = `Archive Date: ${data.print_date}`;
-    gameDate.appendChild(date);
 
     const gameGrid = document.querySelector('.gameGrid');
     gameGrid.innerHTML = ''; 
@@ -163,6 +206,15 @@ function arraysEqual(arr1, arr2) {
 function checkGuess() {
     console.log("Checking Guess!");
     const gridItems = document.querySelectorAll('.gameGridItem');
+    if(correctCount == 4) {
+        var modal = document.getElementById("alreadyWonModal");
+        var closeBtn = document.getElementsByClassName("closeAlreadyWon")[0];
+        closeBtn.onclick = function() {
+            closeModal(modal);
+        }
+        openModal(modal);
+        return;
+    }
     if(selectedArr.length < 4) {
         var modal = document.getElementById("select4Modal");
         var closeBtn = document.getElementsByClassName("close")[0];
@@ -177,7 +229,9 @@ function checkGuess() {
     console.log("result: ", result);
 
     if(result == true) {
+        correctCount += 1;
         displayCorrectCategory(selectedArr);
+        displayCorrectModal();
         const removeArr = selectedArr
         repopulateGrid(removeArr);
         selectedArr.forEach(word => {
@@ -210,6 +264,7 @@ function checkGuess() {
                 item.disabled = true;
                 item.style.pointerEvents = 'none';
             });
+            displayFailedModal();
         }
     }
 }
@@ -297,4 +352,74 @@ function repopulateGrid(removeArr) {
     })
 
     selectedArr = [];
+}
+
+function displayCorrectModal() {
+    if(correctCount == 4) {
+        var modal = document.getElementById("correctModal");
+        var closeBtn = document.getElementsByClassName("closeCorrectModal")[0];
+        closeBtn.onclick = function() {
+            closeModal(modal);
+        }
+        openModal(modal);
+    }
+}
+
+function displayFailedModal() {
+    console.log("!! display Failed modal");
+    var modal = document.getElementById("failedModal");
+    openModal(modal);
+}
+
+function clearSelections() {
+    selectedArr = [];
+
+    const gameGrid = document.querySelector('.gameGrid');
+    const gridItems = Array.from(gameGrid.querySelectorAll('.gameGridItem'));
+
+    gridItems.forEach(item => {
+        if(item.classList.contains('selected')) {
+            item.classList.remove('selected');
+        }
+    });
+}
+
+function getDateArray() {
+    const dateArray = [];
+
+    let startDate = new Date('2023-06-12');
+    startDate.setHours(startDate.getHours() + 6);
+
+    const endDate = new Date();
+
+    while (startDate <= endDate) {
+        const year = startDate.getFullYear();
+        const month = String(startDate.getMonth() + 1).padStart(2, '0');
+        const date = String(startDate.getDate()).padStart(2, '0');
+        dateArray.push(`${year}-${month}-${date}`);
+        startDate.setDate(startDate.getDate() + 1);
+    }
+
+    return dateArray;
+}
+
+function populateSelectorDates() {
+    const mySelect = document.getElementById('dateSelect');
+
+    // Populate the select element with options from the array
+    dateArray.forEach(option => {
+        const optionElement = document.createElement('option');
+        optionElement.textContent = option;
+        mySelect.appendChild(optionElement);
+    });
+}
+
+function setSelectorCurrDate() {
+    const mySelect = document.getElementById('dateSelect');
+    mySelect.value = currentGameDate;
+}
+
+function handleSelectChange() {
+    currentGameDate = document.getElementById('dateSelect').value;
+    retryGame();
 }

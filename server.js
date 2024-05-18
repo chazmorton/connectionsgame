@@ -1,7 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 
-const getGameDayData = require('./src/api/getGameDayData');
+const { getGameDayData, retryGameDayData } = require('./src/api/getGameDayData');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -18,6 +18,21 @@ app.get('/', async (req, res) => {
 app.get('/api/getDayGame', async (req, res) => {
     try {
         const gameData = await getGameDayData();
+        console.log("Game data", gameData);
+        res.json(gameData);
+    } catch (error) {
+        console.error('Error fetching data:', error.message);
+        res.status(500).json({ error: 'Error fetching data' });
+    }
+});
+
+app.get('/api/retryDayGame', async (req, res) => {
+    try {
+        const currGameDate = req.query.currentGameDate;
+
+        console.log("Getting curr Game Date! ", currGameDate);
+
+        const gameData = await retryGameDayData(currGameDate);
         console.log("Game data", gameData);
         res.json(gameData);
     } catch (error) {
