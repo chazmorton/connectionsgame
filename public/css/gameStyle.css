@@ -263,4 +263,37 @@
     text-decoration: none;
     cursor: pointer;
 }
+
+.correctCategoryContainer {
+    margin-bottom: 25px;
+}
   
+.correctCategory {
+    border: none;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    background-color: lightgreen;
+    border-radius: 10px;
+    width: 425px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    padding: 10px 0 10px 0;
+    gap: 10px;
+}
+
+.titleCategory {
+    font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.wordsCategory {
+    font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    margin: 0;
+}

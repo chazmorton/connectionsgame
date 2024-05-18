@@ -1,5 +1,5 @@
 var selectedArr = [];
-var solutionsArr = [];
+var solutionsObj = {};
 var guesses = 4;
 var shuffledWords = [];
 
@@ -13,6 +13,10 @@ function handleGetData() {
         })
         .then(data => {
             console.log('Response:', data);
+            guesses = 4;
+            selectedArr = []
+            const correctCategoryContainer = document.querySelector('.correctCategoryContainer');
+            correctCategoryContainer.innerHTML = '';
             populateGrid(data);
             solutions(data);
             populateGuesses(guesses)
@@ -56,8 +60,6 @@ function shuffleGrid() {
 }
 
 function populateGrid(data) {
-
-    // var shuffledWords = [];
 
     const gameDate = document.querySelector('.gameDate');
     gameDate.innerHTML = '';
@@ -110,16 +112,17 @@ function removeFromArrayIfExists(array, element) {
 }
 
 function solutions(data) {
-    console.log("HYEYYYY", data);
-    solutionsArr = []
+    console.log("!! ", data);
+    solutionsObj = {};
     data.categories.forEach(category => {
         const tempArr = [];
         category.cards.forEach(card => {
             tempArr.push(card.content);
         })
-        solutionsArr.push(tempArr);
+
+        solutionsObj[category.title] = tempArr;
     })
-    console.log(solutionsArr);
+    console.log("!! solutions Arr", solutionsObj);
 }
 
 function populateGuesses(guesses) {
@@ -134,34 +137,27 @@ function populateGuesses(guesses) {
     }
 }
 
-function arrayMatchesAny(targetArray, arrayOfArrays) {
+function arrayMatchesAny(targetArray, solutionsObj) {
     const sortedTargetArray = targetArray.slice().sort();
 
-    // Iterate over the array of arrays
-    for (const arr of arrayOfArrays) {
-        // Sort the current array before comparing
-        const sortedArr = arr.slice().sort();
-        // Check if the sorted arrays are equal
-        if (arraysEqual(sortedTargetArray, sortedArr)) {
-            return true; // If match found, return true
+    let ret = false;
+
+    Object.values(solutionsObj).map(key => {
+        console.log(key);
+        if (arraysEqual(targetArray, key)) {
+            ret = true; 
         }
-    }
-    return false; // If no match found, return false
+    });
+    return ret;
 }
 
 function arraysEqual(arr1, arr2) {
     if (arr1.length !== arr2.length) {
-        return false; // If lengths are different, arrays cannot be equal
+        return false; 
     }
-    
-    // Compare the arrays element by element
-    for (let i = 0; i < arr1.length; i++) {
-        if (arr1[i] !== arr2[i]) {
-            return false; // If any corresponding elements are different, the arrays are not equal
-        }
-    }
-
-    return true; // If all elements are equal, the arrays are equal
+    const sortedArr1 = arr1.slice().sort();
+    const sortedArr2 = arr2.slice().sort();
+    return sortedArr1.every((value, index) => value === sortedArr2[index]);
 }
 
 function checkGuess() {
@@ -176,11 +172,14 @@ function checkGuess() {
         openModal(modal);
         return;
     }
-    const result = arrayMatchesAny(selectedArr, solutionsArr);
+    const result = arrayMatchesAny(selectedArr, solutionsObj);
 
-    console.log(result);
+    console.log("result: ", result);
 
     if(result == true) {
+        displayCorrectCategory(selectedArr);
+        const removeArr = selectedArr
+        repopulateGrid(removeArr);
         selectedArr.forEach(word => {
             gridItems.forEach(gridItem => {
                 if (gridItem.textContent.includes(word)) {
@@ -228,4 +227,74 @@ function openModal(modal) {
 // Function to close modal
 function closeModal(modal) {
     modal.style.display = "none";
+}
+
+function displayCorrectCategory(selectedArr) {
+    console.log("** Sol obj: ", solutionsObj);
+
+    const correctCategoryContainer = document.querySelector('.correctCategoryContainer');
+
+    const selectedArrDisplayable = selectedArr.join(", ");
+
+    Object.entries(solutionsObj).map(([key, value]) => {
+        console.log(value);
+        if (arraysEqual(selectedArr, value)) {
+            console.log('Title:', key);
+
+            const category = document.createElement("div");
+
+            const title = document.createElement("p");
+            title.innerHTML = key + ":";
+            title.classList.add("titleCategory");
+
+            const words = document.createElement("p");
+            words.innerHTML = selectedArrDisplayable;
+            words.classList.add("wordsCategory");
+
+            category.classList.add("correctCategory");
+            category.appendChild(title);
+            category.appendChild(words);
+            correctCategoryContainer.appendChild(category);
+        }
+    });
+}
+
+function repopulateGrid(removeArr) {
+
+    const gameGrid = document.querySelector('.gameGrid');
+
+    const gridItems = Array.from(gameGrid.querySelectorAll('.gameGridItem'));
+
+    gameGrid.innerHTML = '';
+
+    var gridItemsText = [];
+    gridItems.map(item => gridItemsText.push(item.textContent));
+
+    console.log("!!** ", gridItems);
+    console.log("!!** ", gridItemsText);
+
+    const filteredGridItemsText = gridItemsText.filter(word => !removeArr.includes(word));
+
+    filteredGridItemsText.forEach(word => {
+        const gridItem = document.createElement('button');
+        gridItem.classList.add('gameGridItem');
+        gridItem.textContent = `${word}`;
+        gridItem.addEventListener('click', function() {
+            console.log("Button clickied!");
+            if(selectedArr.includes(word)) {
+                gridItem.classList.toggle('selected');
+                selectedArr = removeFromArrayIfExists(selectedArr, word);
+            }
+            else {
+                if(selectedArr.length < 4) {
+                    gridItem.classList.toggle('selected');
+                    selectedArr.push(word);
+                }
+            }
+            console.log(selectedArr);
+        });
+        gameGrid.appendChild(gridItem);
+    })
+
+    selectedArr = [];
 }
