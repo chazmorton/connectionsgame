@@ -282,12 +282,13 @@
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    justify-content: center;
+    align-items: center;
 }
   
 /* Modal Content/Box */
 .select4Modal-content {
     background-color: #fefefe;
-    margin: 25% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
     border-radius: 10px;
@@ -358,12 +359,13 @@
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    justify-content: center;
+    align-items: center;
 }
   
 /* Modal Content/Box */
 .correctModal-content {
     background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
     border-radius: 10px;
@@ -404,12 +406,13 @@
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    justify-content: center;
+    align-items: center;
 }
   
 /* Modal Content/Box */
 .alreadyWonModal-content {
     background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
     border-radius: 10px;
@@ -450,12 +453,13 @@
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    justify-content: center;
+    align-items: center;
 }
   
 /* Modal Content/Box */
 .failedModal-content {
     background-color: #fefefe;
-    margin: 25% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
     border-radius: 10px;

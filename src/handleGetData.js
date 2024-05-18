@@ -276,7 +276,7 @@ function decrementGuess() {
 }
 
 function openModal(modal) {
-    modal.style.display = "block";
+    modal.style.display = "flex";
 }
 
 // Function to close modal
