@@ -406,6 +406,8 @@ function getDateArray() {
 function populateSelectorDates() {
     const mySelect = document.getElementById('dateSelect');
 
+    mySelect.innerHTML = '';
+
     // Populate the select element with options from the array
     dateArray.forEach(option => {
         const optionElement = document.createElement('option');
